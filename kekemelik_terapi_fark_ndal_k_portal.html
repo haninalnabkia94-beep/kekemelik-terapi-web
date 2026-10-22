@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kekemelik - Terapi, Farkındalık & Konuşma Egzersizleri</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dusty: {
+                            50: '#FAF2F4',  // Light background
+                            100: '#F5E4E8',
+                            200: '#EBCBD3',
+                            300: '#D99BB0',  // Accent Pink
+                            400: '#C48296',  // Primary Dusty Pink
+                            500: '#A35C73',  // Deep Rose
+                            600: '#8A485D',
+                            700: '#6E3647',
+                            800: '#4A2B35',  // Dark Text / Contrast
+                            900: '#2E1820',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-8px)' },
+                        }
+                    },
+                    animation: {
+                        float: 'float 5s ease-in-out infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #FAF2F4;
+            color: #4A2B35;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(217, 155, 176, 0.3);
+        }
+        .hero-gradient {
+            background: radial-gradient(circle at 50% 0%, #F5E4E8 0%, #FAF2F4 70%);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #C48296 0%, #8A485D 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        #toast {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-dusty-300 selection:text-white">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-28 opacity-0 pointer-events-none bg-dusty-800 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center space-x-3 border border-dusty-400/30">
+        <i id="toast-icon" class="fas fa-check-circle text-dusty-300 text-xl"></i>
+        <span id="toast-message" class="text-sm font-medium">İşleminiz başarıyla alındı.</span>
+    </div>
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-40 w-full glass-card border-b border-dusty-200/50" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Brand Logo with SVG -->
+            <a href="#" class="flex items-center space-x-3 group">
+                <div class="w-11 h-11 transition-transform duration-300 group-hover:scale-105 flex-shrink-0">
+                    <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-sm">
+                        <defs>
+                            <linearGradient id="dustyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#D99BB0" />
+                                <stop offset="100%" stop-color="#C48296" />
+                            </linearGradient>
+                            <linearGradient id="darkDustyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#A35C73" />
+                                <stop offset="100%" stop-color="#4A2B35" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Speech Bubble -->
+                        <path d="M 100,30 C 58,30 30,58 30,95 C 30,120 45,142 70,152 L 60,178 L 92,158 C 95,158 97,158 100,158 C 142,158 170,130 170,95 C 170,58 142,30 100,30 Z" fill="url(#dustyGrad)"/>
+                        <!-- Inner Waveform Lines -->
+                        <line x1="68" y1="95" x2="76" y2="95" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+                        <line x1="84" y1="95" x2="84" y2="78" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+                        <line x1="84" y1="95" x2="84" y2="112" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+                        <line x1="100" y1="95" x2="100" y2="65" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
+                        <line x1="100" y1="95" x2="100" y2="125" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
+                        <line x1="116" y1="95" x2="116" y2="78" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+                        <line x1="116" y1="95" x2="116" y2="112" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+                        <line x1="124" y1="95" x2="132" y2="95" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+                        <!-- Gentle Supporting Hand Gesture -->
+                        <path d="M 35,148 C 45,188 125,198 180,140 C 158,168 108,182 72,166 C 58,160 46,152 35,148 Z" fill="url(#darkDustyGrad)"/>
+                    </svg>
+                </div>
+                <div>
+                    <span class="text-2xl font-extrabold tracking-tight text-dusty-800 block leading-none">Kekemelik</span>
+                    <span class="text-[10px] tracking-widest uppercase font-semibold text-dusty-500 block mt-1">Terapi & Farkındalık Portalı</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold text-dusty-800">
+                <a href="#hero" class="hover:text-dusty-500 transition-colors py-1">Ana Sayfa</a>
+                <a href="#exercises" class="hover:text-dusty-500 transition-colors py-1 flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-dusty-400 animate-ping"></span>
+                    Egzersizler
+                </a>
+                <a href="#metronome-sec" class="hover:text-dusty-500 transition-colors py-1">Metronom</a>
+                <a href="#myths" class="hover:text-dusty-500 transition-colors py-1">Doğru Bilinenler</a>
+                <a href="#contact" class="hover:text-dusty-500 transition-colors py-1">İletişim</a>
+            </nav>
+
+            <!-- CTA Button -->
+            <div class="hidden md:flex items-center">
+                <a href="#contact" class="bg-gradient-to-r from-dusty-400 to-dusty-500 hover:from-dusty-500 hover:to-dusty-600 text-white font-semibold px-5 py-2.5 rounded-full shadow-md hover:shadow-lg transition-all text-sm flex items-center gap-2">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>Ücretsiz Ön Görüşme</span>
+                </a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-btn" class="md:hidden text-dusty-800 hover:text-dusty-500 p-2 focus:outline-none" aria-label="Menü">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-md border-b border-dusty-200 px-6 py-6 space-y-4">
+            <a href="#hero" class="block text-dusty-800 hover:text-dusty-500 font-semibold py-2">Ana Sayfa</a>
+            <a href="#exercises" class="block text-dusty-800 hover:text-dusty-500 font-semibold py-2">Egzersizler</a>
+            <a href="#metronome-sec" class="block text-dusty-800 hover:text-dusty-500 font-semibold py-2">Ritim Metronomu</a>
+            <a href="#myths" class="block text-dusty-800 hover:text-dusty-500 font-semibold py-2">Doğru Bilinen Yanlışlar</a>
+            <a href="#contact" class="block text-dusty-800 hover:text-dusty-500 font-semibold py-2">İletişim</a>
+            <a href="#contact" class="block text-center bg-dusty-400 text-white font-semibold px-5 py-3 rounded-xl shadow mt-2">Ücretsiz Ön Görüşme</a>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+
+        <!-- HERO SECTION -->
+        <section id="hero" class="relative pt-12 pb-20 md:pt-20 md:pb-28 hero-gradient overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    
+                    <!-- Left Hero Content -->
+                    <div class="lg:col-span-7 space-y-8 text-center lg:text-left">
+                        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 border border-dusty-300/40 text-dusty-700 text-xs sm:text-sm font-semibold shadow-sm">
+                            <i class="fas fa-heart text-dusty-400"></i>
+                            <span>Empatik, Özgüven Odaklı ve Bilimsel Yaklaşım</span>
+                        </div>
+
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-dusty-800 leading-tight">
+                            Kendi Ritmini Bul, <br>
+                            <span class="text-gradient">Özgürce Konuş.</span>
+                        </h1>
+
+                        <p class="text-base sm:text-lg text-dusty-800/80 max-w-2xl font-normal leading-relaxed mx-auto lg:mx-0">
+                            Kekemelik bir kusur veya aşılması gereken bir engel değil, yönetilmeyi bekleyen benzersiz bir konuşma ritmidir. İnteraktif egzersizler ve uzman desteğiyle kaygısız bir iletişim yolculuğuna başlayın.
+                        </p>
+
+                        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                            <a href="#exercises" class="w-full sm:w-auto bg-dusty-400 hover:bg-dusty-500 text-white font-semibold px-8 py-4 rounded-2xl shadow-lg shadow-dusty-400/20 hover:shadow-xl transition-all transform hover:-translate-y-0.5 text-center flex items-center justify-center gap-3">
+                                <i class="fas fa-play text-sm"></i>
+                                <span>Egzersizlere Başla</span>
+                            </a>
+                            <a href="#contact" class="w-full sm:w-auto bg-white hover:bg-dusty-50 text-dusty-800 font-semibold px-8 py-4 rounded-2xl border border-dusty-300 shadow-sm transition-all text-center flex items-center justify-center gap-2">
+                                <i class="far fa-envelope text-dusty-400"></i>
+                                <span>Randevu Al</span>
+                            </a>
+                        </div>
+
+                        <!-- Stats Badge -->
+                        <div class="pt-8 border-t border-dusty-300/40 grid grid-cols-3 gap-4 text-center lg:text-left">
+                            <div>
+                                <div class="text-2xl sm:text-3xl font-extrabold text-dusty-800">%92</div>
+                                <div class="text-xs sm:text-sm text-dusty-600 font-medium">Özgüven Artışı</div>
+                            </div>
+                            <div>
+                                <div class="text-2xl sm:text-3xl font-extrabold text-dusty-800">100%</div>
+                                <div class="text-xs sm:text-sm text-dusty-600 font-medium">Bireysel Odak</div>
+                            </div>
+                            <div>
+                                <div class="text-2xl sm:text-3xl font-extrabold text-dusty-800">Kanıta Dayalı</div>
+                                <div class="text-xs sm:text-sm text-dusty-600 font-medium">Terapi Metotları</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Interactive Hero Card -->
+                    <div class="lg:col-span-5 flex justify-center">
+                        <div class="relative w-full max-w-md animate-float">
+                            <div class="glass-card rounded-3xl p-8 shadow-2xl text-center space-y-6 relative overflow-hidden">
+                                
+                                <!-- Large Dust Pink Logo Canvas / SVG -->
+                                <div class="w-36 h-36 mx-auto relative flex items-center justify-center drop-shadow-md">
+                                    <svg viewBox="0 0 200 200" class="w-full h-full">
+                                        <path d="M 100,30 C 58,30 30,58 30,95 C 30,120 45,142 70,152 L 60,178 L 92,158 C 95,158 97,158 100,158 C 142,158 170,130 170,95 C 170,58 142,30 100,30 Z" fill="#C48296"/>
+                                        <line x1="68" y1="95" x2="76" y2="95" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+                                        <line x1="84" y1="95" x2="84" y2="78" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+                                        <line x1="84" y1="95" x2="84" y2="112" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+                                        <line x1="100" y1="95" x2="100" y2="65" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
+                                        <line x1="100" y1="95" x2="100" y2="125" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
+                                        <line x1="116" y1="95" x2="116" y2="78" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+                                        <line x1="116" y1="95" x2="116" y2="112" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+                                        <line x1="124" y1="95" x2="132" y2="95" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+                                        <path d="M 35,148 C 45,188 125,198 180,140 C 158,168 108,182 72,166 C 58,160 46,152 35,148 Z" fill="#4A2B35"/>
+                                    </svg>
+                                </div>
+
+                                <div>
+                                    <h3 class="text-lg font-bold text-dusty-800">Günün Hatırlatması</h3>
+                                    <p class="text-sm italic text-dusty-600 mt-2 leading-relaxed">
+                                        "Konuşmak, kusursuz kelimeler söylemek değil; kendi düşüncelerini kendi temposunda ifade edebilmektir."
+                                    </p>
+                                </div>
+
+                                <div class="p-4 bg-dusty-50 rounded-2xl border border-dusty-200/60 text-xs text-dusty-700 flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-dusty-300/40 text-dusty-600 flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-smile"></i>
+                                    </div>
+                                    <span class="text-left font-medium">Aşağıdaki interaktif nefes ve metronom araçları ile hemen pratik yapmaya başlayabilirsiniz.</span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- INTERACTIVE EXERCISES MODULE -->
+        <section id="exercises" class="py-20 bg-white relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center space-y-3 mb-16">
+                    <span class="px-4 py-1.5 rounded-full bg-dusty-100 text-dusty-600 text-xs font-bold uppercase tracking-wider">İnteraktif Çalışma Ekranı</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-dusty-800">
+                        Nefes ve Konuşma Egzersizleri
+                    </h2>
+                    <p class="text-dusty-600 max-w-2xl mx-auto text-sm sm:text-base">
+                        Konuşmaya başlamadan önce kas gerilimini azaltmak ve nefesinizi ritme sokmak için geliştirilmiş araçlar.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    
+                    <!-- 1. GUIDED BREATHING EXERCISE (7 cols) -->
+                    <div class="lg:col-span-7 glass-card rounded-3xl p-8 border border-dusty-300 shadow-lg relative">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-xl bg-dusty-400 text-white flex items-center justify-center text-lg">
+                                    <i class="fas fa-wind"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-dusty-800">Kutusal Diyafram Nefesi</h3>
+                                    <p class="text-xs text-dusty-600">4-4-4 Yavaşlatılmış Nefes Döngüsü</p>
+                                </div>
+                            </div>
+                            <span id="breath-status" class="px-3 py-1 rounded-full text-xs font-semibold bg-dusty-100 text-dusty-600">Hazır</span>
+                        </div>
+
+                        <!-- Animated Breathing Ring -->
+                        <div class="py-10 flex flex-col items-center justify-center relative">
+                            <div class="w-64 h-64 sm:w-72 sm:h-72 rounded-full border-2 border-dashed border-dusty-300 flex items-center justify-center relative">
+                                <div id="breath-circle" class="w-44 h-44 sm:w-48 sm:h-48 rounded-full bg-gradient-to-br from-dusty-300 to-dusty-400 text-white flex flex-col items-center justify-center shadow-xl transition-all duration-1000 ease-in-out transform scale-100">
+                                    <span id="breath-action" class="text-xl sm:text-2xl font-bold tracking-wide">HAZIR</span>
+                                    <span id="breath-sub" class="text-xs font-medium opacity-90 mt-1">Başlat'a Basın</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Breath Controls -->
+                        <div class="flex items-center justify-center gap-4 mt-2">
+                            <button id="btn-start-breath" class="bg-dusty-400 hover:bg-dusty-500 text-white px-6 py-3 rounded-xl font-semibold shadow transition-all flex items-center gap-2">
+                                <i class="fas fa-play text-xs"></i>
+                                <span>Nefes Egzersizini Başlat</span>
+                            </button>
+                            <button id="btn-stop-breath" class="bg-gray-200 text-dusty-700 px-6 py-3 rounded-xl font-semibold transition-all flex items-center gap-2 opacity-50 cursor-not-allowed" disabled>
+                                <i class="fas fa-stop text-xs"></i>
+                                <span>Durdur</span>
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <!-- 2. METRONOME & AUDIO VISUALIZER (5 cols) -->
+                    <div class="lg:col-span-5 space-y-8" id="metronome-sec">
+                        
+                        <!-- Metronome Card -->
+                        <div class="glass-card rounded-3xl p-6 border border-dusty-200 shadow-md space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 rounded-xl bg-dusty-100 text-dusty-600 flex items-center justify-center">
+                                        <i class="fas fa-drum"></i>
+                                    </div>
+                                    <h3 class="text-lg font-bold text-dusty-800">Ritim Metronomu</h3>
+                                </div>
+                                <span id="bpm-val" class="text-lg font-extrabold text-dusty-500">60 BPM</span>
+                            </div>
+
+                            <p class="text-xs text-dusty-600 leading-relaxed">
+                                Yavaş ve düzenli vuruşlar eşliğinde kelimelerinizi ritme oturtarak yüksek sesle okuma yapabilirsiniz.
+                            </p>
+
+                            <!-- BPM Range Slider -->
+                            <div class="space-y-2 pt-2">
+                                <div class="flex justify-between text-xs text-dusty-500 font-semibold">
+                                    <span>Yavaş (40)</span>
+                                    <span>Orta (70)</span>
+                                    <span>Hızlı (100)</span>
+                                </div>
+                                <input type="range" id="bpm-range" min="40" max="100" value="60" class="w-full h-2 bg-dusty-200 rounded-lg appearance-none cursor-pointer accent-dusty-400">
+                            </div>
+
+                            <!-- Beat Dots -->
+                            <div class="flex justify-center space-x-3 py-2">
+                                <div class="w-3.5 h-3.5 rounded-full bg-dusty-200 beat-dot" id="dot-0"></div>
+                                <div class="w-3.5 h-3.5 rounded-full bg-dusty-200 beat-dot" id="dot-1"></div>
+                                <div class="w-3.5 h-3.5 rounded-full bg-dusty-200 beat-dot" id="dot-2"></div>
+                                <div class="w-3.5 h-3.5 rounded-full bg-dusty-200 beat-dot" id="dot-3"></div>
+                            </div>
+
+                            <button id="btn-toggle-metro" class="w-full bg-dusty-800 hover:bg-dusty-900 text-white py-3 rounded-xl font-semibold shadow transition-all flex items-center justify-center gap-2 text-sm">
+                                <i class="fas fa-volume-up"></i>
+                                <span>Metronomu Çalıştır</span>
+                            </button>
+                        </div>
+
+                        <!-- Audio Visualizer Card -->
+                        <div class="glass-card rounded-3xl p-6 border border-dusty-200 shadow-md space-y-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-xl bg-dusty-100 text-dusty-600 flex items-center justify-center">
+                                    <i class="fas fa-wave-square"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-dusty-800">Ses Dalgası Önizleme</h3>
+                            </div>
+
+                            <!-- Canvas -->
+                            <div class="bg-dusty-800 rounded-2xl p-2 h-28 flex items-center justify-center overflow-hidden">
+                                <canvas id="wave-canvas" class="w-full h-full"></canvas>
+                            </div>
+
+                            <button id="btn-toggle-mic" class="w-full bg-dusty-100 hover:bg-dusty-200 text-dusty-800 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2">
+                                <i class="fas fa-microphone"></i>
+                                <span>Mikrofon ile Ses Dalgasını İzle</span>
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- MYTHS VS FACTS SECTION -->
+        <section id="myths" class="py-20 hero-gradient border-t border-b border-dusty-200/60">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center space-y-3 mb-16">
+                    <span class="text-dusty-500 font-semibold text-xs tracking-wider uppercase">Farkındalık ve Doğrular</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-dusty-800">
+                        Doğru Bilinen Yanlışlar (Mitoslar)
+                    </h2>
+                    <p class="text-dusty-600 max-w-2xl mx-auto text-sm sm:text-base">
+                        Kekemelik hakkında yanlış bilgileri düzeltmek, hem bireyin kaygısını azaltır hem de toplumda empatiyi güçlendirir.
+                    </p>
+                </div>
+
+                <div class="space-y-4" id="accordion">
+                    
+                    <!-- Item 1 -->
+                    <div class="border border-dusty-200 rounded-2xl overflow-hidden bg-white/80 shadow-sm transition-all hover:border-dusty-300">
+                        <button class="w-full p-6 text-left flex items-center justify-between focus:outline-none acc-trigger" data-id="acc-1">
+                            <div class="flex items-center space-x-4">
+                                <span class="w-8 h-8 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center font-bold text-sm">
+                                    <i class="fas fa-times"></i>
+                                </span>
+                                <span class="font-bold text-base sm:text-lg text-dusty-800">Yanlış: Kekemelik sadece aşırı heyecan veya korkudan kaynaklanır.</span>
+                            </div>
+                            <i class="fas fa-chevron-down text-dusty-400 transition-transform acc-icon"></i>
+                        </button>
+                        <div id="acc-1" class="hidden px-6 pb-6 text-sm text-dusty-700/90 border-t border-dusty-100 pt-4 bg-white">
+                            <strong class="text-dusty-800 block mb-1">Doğru:</strong>
+                            Kekemelik nörogelişimsel bir durumdur; nörolojik ve genetik faktörlerin etkileşimiyle ortaya çıkar. Stres veya heyecan kekemeliği artırabilir ancak temel nedeni değildir.
+                        </div>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="border border-dusty-200 rounded-2xl overflow-hidden bg-white/80 shadow-sm transition-all hover:border-dusty-300">
+                        <button class="w-full p-6 text-left flex items-center justify-between focus:outline-none acc-trigger" data-id="acc-2">
+                            <div class="flex items-center space-x-4">
+                                <span class="w-8 h-8 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center font-bold text-sm">
+                                    <i class="fas fa-times"></i>
+                                </span>
+                                <span class="font-bold text-base sm:text-lg text-dusty-800">Yanlış: Konuşurken takılan birinin cümlesi tamamlanmalıdır.</span>
+                            </div>
+                            <i class="fas fa-chevron-down text-dusty-400 transition-transform acc-icon"></i>
+                        </button>
+                        <div id="acc-2" class="hidden px-6 pb-6 text-sm text-dusty-700/90 border-t border-dusty-100 pt-4 bg-white">
+                            <strong class="text-dusty-800 block mb-1">Doğru:</strong>
+                            Konuşan kişinin cümlesini tamamlamak baskı hissi yaratır. Sabırla, göz teması kurarak ve sözünü kesmeden konuşmasını bitirmesini beklemek en sağlıklı yaklaşımdır.
+                        </div>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="border border-dusty-200 rounded-2xl overflow-hidden bg-white/80 shadow-sm transition-all hover:border-dusty-300">
+                        <button class="w-full p-6 text-left flex items-center justify-between focus:outline-none acc-trigger" data-id="acc-3">
+                            <div class="flex items-center space-x-4">
+                                <span class="w-8 h-8 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center font-bold text-sm">
+                                    <i class="fas fa-times"></i>
+                                </span>
+                                <span class="font-bold text-base sm:text-lg text-dusty-800">Yanlış: Kekemelik zeka düzeyiyle ilişkilidir.</span>
+                            </div>
+                            <i class="fas fa-chevron-down text-dusty-400 transition-transform acc-icon"></i>
+                        </button>
+                        <div id="acc-3" class="hidden px-6 pb-6 text-sm text-dusty-700/90 border-t border-dusty-100 pt-4 bg-white">
+                            <strong class="text-dusty-800 block mb-1">Doğru:</strong>
+                            Kekemeliğin zeka seviyesiyle hiçbir bağlantısı yoktur. Dünyaca ünlü birçok bilim insanı, yazar, oyuncu ve lider kekemelik yaşamıştır.
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- APPOINTMENT / CONTACT SECTION -->
+        <section id="contact" class="py-20 bg-white relative">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="glass-card rounded-3xl p-8 sm:p-12 border border-dusty-300 shadow-2xl">
+                    
+                    <div class="text-center space-y-3 mb-10">
+                        <span class="text-dusty-500 font-semibold text-xs uppercase tracking-wider">İletişim & Danışmanlık</span>
+                        <h2 class="text-3xl font-extrabold text-dusty-800">
+                            Ücretsiz Ön Görüşme Randevusu
+                        </h2>
+                        <p class="text-dusty-600 text-sm max-w-md mx-auto">
+                            Formu doldurarak uzman dil ve konuşma terapistlerimizle ilk değerlendirme görüşmesini planlayabilirsiniz.
+                        </p>
+                    </div>
+
+                    <form id="appointment-form" class="space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label for="name" class="block text-xs font-bold text-dusty-800 uppercase tracking-wider mb-2">Ad Soyad</label>
+                                <input type="text" id="name" required placeholder="Örn: Ahmet Yılmaz" class="w-full px-4 py-3 rounded-xl border border-dusty-200 focus:border-dusty-400 focus:outline-none transition-all text-sm bg-dusty-50/50">
+                            </div>
+                            <div>
+                                <label for="phone" class="block text-xs font-bold text-dusty-800 uppercase tracking-wider mb-2">Telefon / E-posta</label>
+                                <input type="text" id="phone" required placeholder="05XX XXX XX XX" class="w-full px-4 py-3 rounded-xl border border-dusty-200 focus:border-dusty-400 focus:outline-none transition-all text-sm bg-dusty-50/50">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-dusty-800 uppercase tracking-wider mb-2">Görüşme Tercihi</label>
+                            <div class="grid grid-cols-2 gap-4">
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="type" value="online" class="peer sr-only" checked>
+                                    <div class="p-3 text-center border border-dusty-200 rounded-xl peer-checked:bg-dusty-400 peer-checked:text-white transition-all text-xs font-semibold">
+                                        <i class="fas fa-laptop-house block text-base mb-1"></i> Online Görüşme
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="type" value="face" class="peer sr-only">
+                                    <div class="p-3 text-center border border-dusty-200 rounded-xl peer-checked:bg-dusty-400 peer-checked:text-white transition-all text-xs font-semibold">
+                                        <i class="fas fa-user-friends block text-base mb-1"></i> Yüz Yüze Görüşme
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="msg" class="block text-xs font-bold text-dusty-800 uppercase tracking-wider mb-2">Notunuz (İsteğe Bağlı)</label>
+                            <textarea id="msg" rows="3" placeholder="Görüşmek istediğiniz hususları belirtebilirsiniz..." class="w-full px-4 py-3 rounded-xl border border-dusty-200 focus:border-dusty-400 focus:outline-none transition-all text-sm bg-dusty-50/50"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-dusty-400 hover:bg-dusty-500 text-white font-bold py-4 rounded-xl shadow-md transition-all text-center flex items-center justify-center space-x-2 text-sm">
+                            <i class="fas fa-paper-plane"></i>
+                            <span>Randevu Talebini Gönder</span>
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-dusty-800 text-dusty-100 pt-16 pb-12 border-t border-dusty-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-dusty-700/80">
+                
+                <!-- Brand Info -->
+                <div class="md:col-span-6 space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10">
+                            <svg viewBox="0 0 200 200" class="w-full h-full">
+                                <path d="M 100,30 C 58,30 30,58 30,95 C 30,120 45,142 70,152 L 60,178 L 92,158 C 95,158 97,158 100,158 C 142,158 170,130 170,95 C 170,58 142,30 100,30 Z" fill="#D99BB0"/>
+                                <line x1="68" y1="95" x2="76" y2="95" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+                                <line x1="84" y1="95" x2="84" y2="78" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+                                <line x1="84" y1="95" x2="84" y2="112" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+                                <line x1="100" y1="95" x2="100" y2="65" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
+                                <line x1="100" y1="95" x2="100" y2="125" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
+                                <line x1="116" y1="95" x2="116" y2="78" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+                                <line x1="116" y1="95" x2="116" y2="112" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+                                <line x1="124" y1="95" x2="132" y2="95" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+                                <path d="M 35,148 C 45,188 125,198 180,140 C 158,168 108,182 72,166 C 58,160 46,152 35,148 Z" fill="#FFFFFF"/>
+                            </svg>
+                        </div>
+                        <span class="text-2xl font-extrabold text-white">Kekemelik</span>
+                    </div>
+                    <p class="text-dusty-200/80 text-sm max-w-sm">
+                        Kekemelik farkındalığı, konuşma akıcılığı destek araçları ve empatik terapi rehberliği platformu.
+                    </p>
+                </div>
+
+                <!-- Navigation -->
+                <div class="md:col-span-3 space-y-3">
+                    <h4 class="text-xs font-bold text-dusty-300 uppercase tracking-wider">Hızlı Erişim</h4>
+                    <ul class="space-y-2 text-sm text-dusty-200/80">
+                        <li><a href="#exercises" class="hover:text-white transition-colors">Nefes Egzersizi</a></li>
+                        <li><a href="#metronome-sec" class="hover:text-white transition-colors">Ritim Metronomu</a></li>
+                        <li><a href="#myths" class="hover:text-white transition-colors">Doğru Bilinen Yanlışlar</a></li>
+                        <li><a href="#contact" class="hover:text-white transition-colors">İletişim & Randevu</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div class="md:col-span-3 space-y-3">
+                    <h4 class="text-xs font-bold text-dusty-300 uppercase tracking-wider">İletişim</h4>
+                    <p class="text-sm text-dusty-200/80"><i class="fas fa-envelope mr-2 text-dusty-300"></i> bilgi@kekemelik.org</p>
+                    <p class="text-sm text-dusty-200/80"><i class="fas fa-phone mr-2 text-dusty-300"></i> +90 (850) 300 00 00</p>
+                </div>
+
+            </div>
+
+            <div class="pt-8 text-center text-xs text-dusty-200/50">
+                &copy; 2026 Kekemelik Terapi & Farkındalık Portalı. Tüm hakları saklıdır.
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- JAVASCRIPT APP LOGIC -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Toast Notification Helper
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            const showToast = (msg) => {
+                toastMsg.textContent = msg;
+                toast.classList.remove('translate-y-28', 'opacity-0', 'pointer-events-none');
+                setTimeout(() => {
+                    toast.classList.add('translate-y-28', 'opacity-0', 'pointer-events-none');
+                }, 3500);
+            };
+
+            // Mobile Navigation Toggle
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+            // Myths Accordion Logic
+            document.querySelectorAll('.acc-trigger').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = btn.getAttribute('data-id');
+                    const target = document.getElementById(id);
+                    const icon = btn.querySelector('.acc-icon');
+                    const isHidden = target.classList.contains('hidden');
+
+                    document.querySelectorAll('#accordion > div > div').forEach(el => el.classList.add('hidden'));
+                    document.querySelectorAll('.acc-icon').forEach(i => i.classList.remove('rotate-180'));
+
+                    if (isHidden) {
+                        target.classList.remove('hidden');
+                        icon.classList.add('rotate-180');
+                    }
+                });
+            });
+
+
+            // BREATHING EXERCISE LOGIC
+            const breathCircle = document.getElementById('breath-circle');
+            const breathAction = document.getElementById('breath-action');
+            const breathSub = document.getElementById('breath-sub');
+            const breathStatus = document.getElementById('breath-status');
+            const btnStartBreath = document.getElementById('btn-start-breath');
+            const btnStopBreath = document.getElementById('btn-stop-breath');
+
+            let breathTimer = null;
+            let step = 0;
+
+            const runBreathing = () => {
+                if (step === 0) {
+                    breathAction.textContent = "NEFES AL";
+                    breathSub.textContent = "Yavaşça Derin Nefes (4sn)";
+                    breathCircle.style.transform = "scale(1.35)";
+                    step = 1;
+                } else if (step === 1) {
+                    breathAction.textContent = "NEFESİ TUT";
+                    breathSub.textContent = "Sakin Kal (4sn)";
+                    breathCircle.style.transform = "scale(1.35)";
+                    step = 2;
+                } else {
+                    breathAction.textContent = "NEFES VER";
+                    breathSub.textContent = "Yavaşça Bırak (4sn)";
+                    breathCircle.style.transform = "scale(1.0)";
+                    step = 0;
+                }
+            };
+
+            btnStartBreath.addEventListener('click', () => {
+                btnStartBreath.disabled = true;
+                btnStartBreath.classList.add('opacity-50', 'cursor-not-allowed');
+                btnStopBreath.disabled = false;
+                btnStopBreath.classList.remove('opacity-50', 'cursor-not-allowed');
+                
+                breathStatus.textContent = "Aktif";
+                breathStatus.className = "px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700";
+
+                step = 0;
+                runBreathing();
+                breathTimer = setInterval(runBreathing, 4000);
+            });
+
+            btnStopBreath.addEventListener('click', () => {
+                clearInterval(breathTimer);
+                breathTimer = null;
+                btnStartBreath.disabled = false;
+                btnStartBreath.classList.remove('opacity-50', 'cursor-not-allowed');
+                btnStopBreath.disabled = true;
+                btnStopBreath.classList.add('opacity-50', 'cursor-not-allowed');
+
+                breathStatus.textContent = "Hazır";
+                breathStatus.className = "px-3 py-1 rounded-full text-xs font-semibold bg-dusty-100 text-dusty-600";
+                
+                breathAction.textContent = "HAZIR";
+                breathSub.textContent = "Başlat'a Basın";
+                breathCircle.style.transform = "scale(1.0)";
+            });
+
+
+            // METRONOME LOGIC (WEB AUDIO API)
+            let audioCtx = null;
+            let metroInterval = null;
+            let isMetroRunning = false;
+            let bpm = 60;
+            let beat = 0;
+
+            const bpmRange = document.getElementById('bpm-range');
+            const bpmVal = document.getElementById('bpm-val');
+            const btnMetro = document.getElementById('btn-toggle-metro');
+            const dots = [
+                document.getElementById('dot-0'),
+                document.getElementById('dot-1'),
+                document.getElementById('dot-2'),
+                document.getElementById('dot-3')
+            ];
+
+            bpmRange.addEventListener('input', (e) => {
+                bpm = e.target.value;
+                bpmVal.textContent = `${bpm} BPM`;
+                if (isMetroRunning) {
+                    stopMetronome();
+                    startMetronome();
+                }
+            });
+
+            const playBeat = () => {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+
+                osc.type = 'sine';
+                osc.frequency.value = beat === 0 ? 750 : 500;
+                gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.08);
+
+                dots.forEach((d, idx) => {
+                    d.className = idx === beat 
+                        ? "w-3.5 h-3.5 rounded-full bg-dusty-500 scale-125 transition-all shadow"
+                        : "w-3.5 h-3.5 rounded-full bg-dusty-200 transition-all";
+                });
+
+                beat = (beat + 1) % 4;
+            };
+
+            const startMetronome = () => {
+                isMetroRunning = true;
+                beat = 0;
+                btnMetro.innerHTML = '<i class="fas fa-pause"></i> <span>Durdur</span>';
+                btnMetro.classList.replace('bg-dusty-800', 'bg-rose-600');
+                
+                playBeat();
+                metroInterval = setInterval(playBeat, (60 / bpm) * 1000);
+            };
+
+            const stopMetronome = () => {
+                isMetroRunning = false;
+                clearInterval(metroInterval);
+                btnMetro.innerHTML = '<i class="fas fa-volume-up"></i> <span>Metronomu Çalıştır</span>';
+                btnMetro.classList.replace('bg-rose-600', 'bg-dusty-800');
+                dots.forEach(d => d.className = "w-3.5 h-3.5 rounded-full bg-dusty-200");
+            };
+
+            btnMetro.addEventListener('click', () => {
+                if (isMetroRunning) stopMetronome();
+                else startMetronome();
+            });
+
+
+            // AUDIO VISUALIZER CANVAS
+            const canvas = document.getElementById('wave-canvas');
+            const ctx = canvas.getContext('2d');
+            let phase = 0;
+
+            const resizeCanvas = () => {
+                canvas.width = canvas.parentElement.clientWidth;
+                canvas.height = canvas.parentElement.clientHeight;
+            };
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            const drawWave = () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.lineWidth = 2.5;
+                ctx.strokeStyle = '#D99BB0';
+                ctx.beginPath();
+
+                const h = canvas.height;
+                const w = canvas.width;
+                const cy = h / 2;
+
+                for (let x = 0; x < w; x++) {
+                    const angle = (x * 0.025) + phase;
+                    const y = cy + Math.sin(angle) * (18 * Math.sin(x * 0.01));
+                    if (x === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+                phase += 0.06;
+                requestAnimationFrame(drawWave);
+            };
+            drawWave();
+
+            document.getElementById('btn-toggle-mic').addEventListener('click', () => {
+                showToast("Mikrofon simülasyonu aktif hale getirildi.");
+            });
+
+            // FORM SUBMISSION
+            document.getElementById('appointment-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                showToast("Randevu talebiniz başarıyla iletildi. En kısa sürede ulaşacağız.");
+                e.target.reset();
+            });
+
+        });
+    </script>
+</body>
+</html>
